@@ -1,6 +1,5 @@
-package fr.customentity.investment.utils;
+package fr.yourpackage;
 
-import fr.customentity.investment.Investment;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -18,11 +17,12 @@ import java.util.UUID;
 */
 public class ActionBarUtils {
 
+    private JavaPlugin plugin;
     private static String nmsver;
     private static boolean useOldMethods = false;
     private static boolean isSuperior1_16Ver = false;
 
-    public ActionBarUtils() {
+    public ActionBarUtils(JavaPlugin plugin) {
         nmsver = Bukkit.getServer().getClass().getPackage().getName();
         nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);
 
@@ -33,6 +33,7 @@ public class ActionBarUtils {
         if(nmsver.equalsIgnoreCase("v1_16_R1")) {
             isSuperior1_16Ver = true;
         }
+        this.plugin = plugin;
     }
 
     public static void sendActionBar(Player player, String message) {
@@ -94,7 +95,7 @@ public class ActionBarUtils {
                 public void run() {
                     sendActionBar(player, "");
                 }
-            }.runTaskLater(Investment.getInstance(), duration + 1);
+            }.runTaskLater(plugin, duration + 1);
         }
 
         while (duration > 40) {
@@ -104,7 +105,7 @@ public class ActionBarUtils {
                 public void run() {
                     sendActionBar(player, message);
                 }
-            }.runTaskLater(Investment.getInstance(), (long) duration);
+            }.runTaskLater(plugin, (long) duration);
         }
     }
 
